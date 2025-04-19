@@ -1,0 +1,107 @@
+---
+
+---
+<div class="bg-gray-100 py-8 sm:py-16 px-4 sm:px-6 lg:px-8 rounded-lg shadow-md">
+<div class="flex flex-col items-center justify-center max-w-5xl mx-auto">
+    <button class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 sm:py-3 px-4 sm:px-6 rounded-full shadow-lg transform transition-transform duration-300 hover:scale-105 mb-6 sm:mb-8 text-sm sm:text-base">
+    TRY BHOUT
+    </button>
+    <div class="text-center mb-12">
+      <h3 class="text-gray-600 text-lg mb-2">This is just the beginning</h3>
+        <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900">
+            BHOUT
+            in
+            numbers</h2>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 w-full">
+      <div class="stat-item flex flex-col items-center p-6 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
+          <div class="counter text-4xl sm:text-5xl font-bold text-blue-600 mb-2 sm:mb-3"
+               data-target="70">
+              0
+          </div>
+          <p class="text-gray-600 text-center">Sessions per day (up to)</p>
+      </div>
+        <div class="stat-item flex flex-col items-center p-4 sm:p-6 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
+        <div class="counter text-5xl font-bold text-blue-600 mb-3" data-target="1500">0</div>
+        <p class="text-gray-600 text-center">Sessions completed</p>
+      </div>
+      <div class="stat-item flex flex-col items-center p-6 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
+        <div class="counter text-5xl font-bold text-blue-600 mb-3" data-target="50000">0</div>
+        <p class="text-gray-600 text-center">Calories burned</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  import $ from 'jquery';
+        document.addEventListener('DOMContentLoaded', function() {
+    if (typeof $ !== 'undefined') {
+            function animateCounters() {
+        $('.counter').each(function() {
+          const $this = $(this);
+          const target = parseInt($this.attr('data-target') || '0');
+
+          // Configuración de la animación
+          const duration = 2000; // 2 segundos
+          const frameDuration = 1000 / 60; // 60fps
+          const totalFrames = Math.round(duration / frameDuration);
+          let frame = 0;
+
+          // Si el número es grande, usamos incrementos más grandes
+          const increment = target / totalFrames;
+
+          // Animación usando requestAnimationFrame para un rendimiento óptimo
+          const counter = setInterval(() => {
+            frame++;
+            const progress = frame / totalFrames;
+            const current = Math.round(progress * target);
+
+            $this.text(current.toLocaleString());
+
+            if (frame === totalFrames) {
+              clearInterval(counter);
+              $this.text(target.toLocaleString());
+            }
+          }, frameDuration);
+        });
+      }
+
+      // Función para comprobar si un elemento está visible en el viewport
+      function isInViewport(element: HTMLElement) {
+        const rect = element.getBoundingClientRect();
+        return (
+          rect.top >= 0 &&
+          rect.left >= 0 &&
+          rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+          rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+        );
+      }
+
+      // Iniciar la animación cuando los contadores estén visibles
+      $(document).ready(function() {
+        const statsSection = $('.counter').first().parent().parent().parent();
+
+        // Comprobar en la carga y en el scroll
+        function checkView() {
+          if (isInViewport(statsSection[0])) {
+            animateCounters();
+            $(window).off('scroll', checkView);
+          }
+        }
+
+        // Comprobar inmediatamente y luego en el scroll
+        checkView();
+        $(window).on('scroll', checkView);
+
+        // Efecto de botón
+        $('.bg-blue-600').on('mousedown', function() {
+          $(this).addClass('scale-95');
+        }).on('mouseup mouseleave', function() {
+          $(this).removeClass('scale-95');
+        });
+  });
+    }
+    });
+
+</script>

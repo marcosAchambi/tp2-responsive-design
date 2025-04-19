@@ -1,0 +1,46 @@
+---
+
+---
+<section class="relative h-screen w-full overflow-hidden">
+    <video
+        class="absolute top-0 left-0 w-full h-full object-cover"
+        autoplay
+        muted
+        loop
+        playsinline
+    >
+        <source src="/video.mp4" type="video/mp4">
+    </video>
+
+    <!-- Reducir la opacidad del overlay para ver mejor el texto -->
+    <div class="absolute top-0 left-0 w-full h-full bg-black/30"></div>
+
+    <div id="hero-content"
+         class="relative z-10 flex flex-col items-center justify-center h-full text-white text-center px-4 opacity-0">
+        <h1 class="text-9xl font-bold mb-4 text-white">
+            Welcome
+            to
+            Our
+            Site</h1>
+        <p class="text-xl text-white">
+            Discover
+            amazing
+            content
+            and
+            possibilities</p>
+    </div>
+
+</section>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+    if (typeof $ !== 'undefined') {
+        $('#hero-content')
+            .removeClass('opacity-0')
+            .addClass('opacity-100')
+            .children('p')
+            .hide()
+            .slideDown(900)
+            .fadeIn(100);
+    }
+    });
+</script>
